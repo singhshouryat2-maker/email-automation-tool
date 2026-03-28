@@ -155,3 +155,48 @@ function FlowCard({
     </Card>
   );
 }
+
+
+type TriggerMode = "new_email" | "hourly" | "daily" | "weekly";
+type BuilderStepType =
+  | "summarize"
+  | "label"
+  | "mark_unread"
+  | "draft_reply"
+  | "forward"
+  | "archive"
+  | "delete"
+  | "notify"
+  | "webhook"
+  | "delay";
+
+type BuilderStep = {
+  id: string;
+  type: BuilderStepType;
+  config: Record<string, string | boolean>;
+};
+
+type AutomationFlow = {
+  id: string;
+  name: string;
+  enabled: boolean;
+  trigger: TriggerMode;
+  scheduleText: string;
+  query: string;
+  scope: "gmail" | "workspace" | "custom";
+  description: string;
+  steps: BuilderStep[];
+  processedToday: number;
+  lastRun: string;
+  successRate: number;
+};
+
+type EmailItem = {
+  id: string;
+  from: string;
+  subject: string;
+  preview: string;
+  time: string;
+  tags: string[];
+  status: "new" | "processed" | "flagged";
+};
