@@ -305,5 +305,56 @@ const defaultFlows: AutomationFlow[] = [
     processedToday: 2,
     lastRun: "Yesterday • 18:14",
     successRate: 94,
-  },
+  }
 ];
+function cn(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function makeId(prefix: string) {
+  return `${prefix}_${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function StepPill({ step }: { step: BuilderStep }) {
+  const meta = actionTypeMeta[step.type];
+  const Icon = meta.icon;
+  return (
+    <div className="flex items-center gap-2 rounded-xl border bg-slate-50 px-3 py-2 text-sm">
+      <Icon className="h-4 w-4 text-slate-600" />
+      <span className="font-medium">{meta.label}</span>
+      {step.type === "label" && typeof step.config.value === "string" ? (
+        <Badge variant="secondary" className="rounded-full">{step.config.value}</Badge>
+      ) : null}
+      {step.type === "notify" && typeof step.config.channel === "string" ? (
+        <Badge variant="secondary" className="rounded-full">{step.config.channel}</Badge>
+      ) : null}
+    </div>
+  );
+}
+function EmailRow({ item }: { item: EmailItem }) {
+  return (
+    <div className="flex items-start gap-3 rounded-2xl border bg-white p-4 shadow-sm">
+      <div
+        className={cn(
+          "mt-1 h-2.5 w-2.5 rounded-full",
+          item.status === "new" && "bg-emerald-500",
+          item.status === "processed" && "bg-slate-300",
+          item.status === "flagged" && "bg-amber-500"
+        )}
+      />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center justify-between gap-3">
+          <div className="truncate text-sm font-medium text-slate-900">{item.from}</div>
+          <div className="text-xs text-slate-500">{item.time}</div>
+        </div>
+        <div className="mt-1 truncate text-sm font-semibold">{item.subject}</div>
+        <div className="mt-1 line-clamp-2 text-sm text-slate-500">{item.preview}</div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {item.tags.map((tag) => (
+            <Badge key={tag} variant="secondary" className="rounded-full">{tag}</Badge>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
