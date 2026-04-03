@@ -358,3 +358,64 @@ function EmailRow({ item }: { item: EmailItem }) {
     </div>
   );
 }
+
+function FlowOverviewCard({
+  flow,
+  onToggle,
+  onSelect,
+}: {
+  flow: AutomationFlow;
+  onToggle: (id: string) => void;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <motion.div layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
+      <Card className="rounded-2xl border shadow-sm">
+        <CardContent className="p-5">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="text-lg font-semibold tracking-tight">{flow.name}</div>
+                <Badge className="rounded-full" variant={flow.enabled ? "default" : "secondary"}>
+                  {flow.enabled ? "Active" : "Paused"}
+                </Badge>
+                <Badge variant="outline" className="rounded-full">{flow.scheduleText}</Badge>
+              </div>
+              <p className="max-w-2xl text-sm text-slate-500">{flow.description}</p>
+              <div className="flex flex-wrap gap-2">
+                {flow.steps.map((step) => (
+                  <StepPill key={step.id} step={step} />
+                ))}
+              </div>
+              <div className="text-xs text-slate-500">Rule query: {flow.query}</div>
+            </div>
+
+            <div className="grid min-w-[240px] grid-cols-2 gap-3">
+              <div className="rounded-2xl border bg-slate-50 p-3">
+                <div className="text-xs text-slate-500">Processed today</div>
+                <div className="mt-1 text-xl font-semibold">{flow.processedToday}</div>
+              </div>
+              <div className="rounded-2xl border bg-slate-50 p-3">
+                <div className="text-xs text-slate-500">Success rate</div>
+                <div className="mt-1 text-xl font-semibold">{flow.successRate}%</div>
+              </div>
+              <div className="col-span-2 rounded-2xl border bg-slate-50 p-3 text-xs text-slate-500">
+                Last run: <span className="font-medium text-slate-700">{flow.lastRun}</span>
+              </div>
+              <div className="col-span-2 flex gap-2">
+                <Button className="flex-1 rounded-xl" variant="outline" onClick={() => onSelect(flow.id)}>
+                  <Eye className="mr-2 h-4 w-4" />
+                  Inspect
+                </Button>
+                <Button className="rounded-xl" variant={flow.enabled ? "secondary" : "default"} onClick={() => onToggle(flow.id)}>
+                  {flow.enabled ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
+                  {flow.enabled ? "Pause" : "Run"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+}
