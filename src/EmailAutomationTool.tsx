@@ -495,3 +495,60 @@ function BuilderStepEditor({
     </div>
   );
 }
+
+
+export default function EmailAutomationTool() {
+  const [flows, setFlows] = useState<AutomationFlow[]>(defaultFlows);
+  const [emails] = useState<EmailItem[]>(initialEmails);
+  const [selectedFlowId, setSelectedFlowId] = useState<string>(defaultFlows[0].id);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterState, setFilterState] = useState<"all" | "active" | "paused">("all");
+
+  const [builderName, setBuilderName] = useState("New automated workflow");
+  const [builderTrigger, setBuilderTrigger] = useState<TriggerMode>("new_email");
+  const [builderScheduleText, setBuilderScheduleText] = useState("Instant");
+  const [builderQuery, setBuilderQuery] = useState('from:(@newtonschool.co OR @nst.edu)');
+  const [builderScope, setBuilderScope] = useState<"gmail" | "workspace" | "custom">("workspace");
+  const [builderDescription, setBuilderDescription] = useState(
+    "Watches inbox activity and automatically performs a sequence of actions."
+  );
+  const [builderEnabled, setBuilderEnabled] = useState(true);
+  const [builderSteps, setBuilderSteps] = useState<BuilderStep[]>([
+    { id: makeId("step"), type: "label", config: { value: "Important" } },
+    { id: makeId("step"), type: "notify", config: { channel: "dashboard" } },
+  ]);
+
+  const selectedFlow = useMemo(
+    () => flows.find((flow) => flow.id === selectedFlowId) ?? flows[0],
+    [flows, selectedFlowId]
+  );
+
+  const filteredFlows = useMemo(() => {
+    return flows.filter((flow) => {
+      const matchesText =
+        !searchQuery ||
+        flow.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        flow.query.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        flow.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesState =
+        filterState === "all" ||
+        (filterState === "active" && flow.enabled) ||
+        (filterState === "paused" && !flow.enabled);
+
+      return matchesText && matchesState;
+    });
+  }, [flows, searchQuery, filterState]);
+
+  const totalProcessed = useMemo(() => flows.reduce((sum, flow) => sum + flow.processedToday, 0), [flows]);
+  const activeCount = useMemo(() => flows.filter((flow) => flow.enabled).length, [flows]);
+  const avgSuccess = useMemo(
+    () => Math.round(flows.reduce((sum, flow) => sum + flow.successRate, 0) / flows.length),
+    [flows]
+  );
+
+  const toggleFlow = (id: string) => {
+    setFlows((current) =>
+      current.map((flow) => (flow.id === id ? { ...flow, enabled: !flow.enabled } : flow))
+    );
+  };
