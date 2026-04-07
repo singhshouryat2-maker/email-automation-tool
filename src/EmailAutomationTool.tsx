@@ -114,9 +114,11 @@ const Tabs = ({ children, defaultValue, ...props }: any) => {
   );
 };
 
-const TabsList = ({ children, style = {} }: any) => (
+const TabsList = ({ children, active, setActive, style = {} }: any) => (
   <div style={{ display: 'inline-flex', gap: '8px', padding: '4px', backgroundColor: '#f3f4f6', borderRadius: '8px', ...style }} role="tablist">
-    {children}
+    {React.Children.map(children, (child: any) =>
+      React.isValidElement(child) ? React.cloneElement(child, { active, setActive } as any) : child
+    )}
   </div>
 );
 
