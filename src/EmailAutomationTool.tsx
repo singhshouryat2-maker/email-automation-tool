@@ -24,38 +24,38 @@ import {
   Play,
 } from "lucide-react";
 
-// Basic styled components to replace UI library
-const Card = ({ children, className = '' }: any) => (
-  <div className={`rounded-lg border border-gray-200 bg-white shadow ${className}`}>
+// Basic styled components using inline styles
+const Card = ({ children, style = {} }: any) => (
+  <div style={{ borderRadius: '8px', border: '1px solid #e5e7eb', backgroundColor: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', ...style }}>
     {children}
   </div>
 );
 
-const CardHeader = ({ children, className = '' }: any) => (
-  <div className={`px-6 py-4 border-b border-gray-200 ${className}`}>{children}</div>
+const CardHeader = ({ children, style = {} }: any) => (
+  <div style={{ padding: '24px', borderBottom: '1px solid #e5e7eb', ...style }}>{children}</div>
 );
 
-const CardTitle = ({ children, className = '' }: any) => (
-  <h2 className={`text-lg font-semibold ${className}`}>{children}</h2>
+const CardTitle = ({ children, style = {} }: any) => (
+  <h2 style={{ fontSize: '18px', fontWeight: 600, ...style }}>{children}</h2>
 );
 
-const CardDescription = ({ children, className = '' }: any) => (
-  <p className={`text-sm text-gray-500 mt-1 ${className}`}>{children}</p>
+const CardDescription = ({ children, style = {} }: any) => (
+  <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px', ...style }}>{children}</p>
 );
 
-const CardContent = ({ children, className = '' }: any) => (
-  <div className={`px-6 py-4 ${className}`}>{children}</div>
+const CardContent = ({ children, style = {} }: any) => (
+  <div style={{ padding: '24px', ...style }}>{children}</div>
 );
 
-const Button = ({ children, variant = 'default', className = '', ...props }: any) => {
+const Button = ({ children, variant = 'default', style = {}, ...props }: any) => {
   const variants = {
-    default: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 hover:bg-gray-300',
-    outline: 'border border-gray-300 hover:bg-gray-50',
+    default: { backgroundColor: '#2563eb', color: 'white', cursor: 'pointer' },
+    secondary: { backgroundColor: '#e5e7eb', color: '#111827', cursor: 'pointer' },
+    outline: { border: '1px solid #d1d5db', backgroundColor: 'transparent', cursor: 'pointer' },
   };
   return (
     <button
-      className={`px-4 py-2 rounded-md font-medium transition-colors ${variants[variant]} ${className}`}
+      style={{ padding: '8px 16px', borderRadius: '6px', fontWeight: 500, border: 'none', transition: 'all 0.2s', ...variants[variant], ...style }}
       {...props}
     >
       {children}
@@ -63,28 +63,28 @@ const Button = ({ children, variant = 'default', className = '', ...props }: any
   );
 };
 
-const Input = ({ className = '', ...props }: any) => (
+const Input = ({ style = {}, ...props }: any) => (
   <input
-    className={`px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+    style={{ padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '16px', fontFamily: 'inherit', ...style }}
     {...props}
   />
 );
 
-const Textarea = ({ className = '', ...props }: any) => (
+const Textarea = ({ style = {}, ...props }: any) => (
   <textarea
-    className={`px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
+    style={{ padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '14px', fontFamily: 'monospace', ...style }}
     {...props}
   />
 );
 
-const Badge = ({ children, variant = 'default', className = '' }: any) => {
+const Badge = ({ children, variant = 'default', style = {} }: any) => {
   const variants = {
-    default: 'bg-blue-100 text-blue-800',
-    secondary: 'bg-gray-100 text-gray-800',
-    outline: 'border border-gray-300',
+    default: { backgroundColor: '#dbeafe', color: '#1e40af' },
+    secondary: { backgroundColor: '#f3f4f6', color: '#1f2937' },
+    outline: { border: '1px solid #d1d5db', backgroundColor: 'transparent' },
   };
   return (
-    <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${variants[variant]} ${className}`}>
+    <span style={{ display: 'inline-block', padding: '4px 8px', fontSize: '12px', fontWeight: 500, borderRadius: '9999px', ...variants[variant], ...style }}>
       {children}
     </span>
   );
@@ -93,20 +93,14 @@ const Badge = ({ children, variant = 'default', className = '' }: any) => {
 const Switch = ({ checked = false, onCheckedChange }: any) => (
   <button
     onClick={() => onCheckedChange?.(!checked)}
-    className={`relative inline-block h-6 w-11 rounded-full transition-colors ${
-      checked ? 'bg-blue-600' : 'bg-gray-300'
-    }`}
+    style={{ position: 'relative', display: 'inline-block', width: '44px', height: '24px', borderRadius: '9999px', backgroundColor: checked ? '#2563eb' : '#d1d5db', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s' }}
   >
-    <span
-      className={`absolute top-1 h-4 w-4 rounded-full bg-white transition-transform ${
-        checked ? 'translate-x-6' : 'translate-x-1'
-      }`}
-    />
+    <span style={{ position: 'absolute', top: '2px', left: checked ? '24px' : '2px', width: '20px', height: '20px', borderRadius: '9999px', backgroundColor: 'white', transition: 'left 0.2s' }} />
   </button>
 );
 
-const Label = ({ children, className = '' }: any) => (
-  <label className={`text-sm font-medium text-gray-700 block mb-1 ${className}`}>{children}</label>
+const Label = ({ children, style = {} }: any) => (
+  <label style={{ fontSize: '14px', fontWeight: 500, color: '#374151', display: 'block', marginBottom: '4px', ...style }}>{children}</label>
 );
 
 const Tabs = ({ children, defaultValue, ...props }: any) => {
@@ -120,25 +114,23 @@ const Tabs = ({ children, defaultValue, ...props }: any) => {
   );
 };
 
-const TabsList = ({ children, className = '' }: any) => (
-  <div className={`inline-flex gap-2 p-1 bg-gray-100 rounded-lg ${className}`} role="tablist">
+const TabsList = ({ children, style = {} }: any) => (
+  <div style={{ display: 'inline-flex', gap: '8px', padding: '4px', backgroundColor: '#f3f4f6', borderRadius: '8px', ...style }} role="tablist">
     {children}
   </div>
 );
 
-const TabsTrigger = ({ value, children, active, setActive, className = '' }: any) => (
+const TabsTrigger = ({ value, children, active, setActive, style = {} }: any) => (
   <button
     onClick={() => setActive(value)}
-    className={`px-4 py-2 rounded-md font-medium transition-colors ${
-      active === value ? 'bg-white text-gray-900 shadow' : 'text-gray-600'
-    } ${className}`}
+    style={{ padding: '8px 16px', borderRadius: '6px', fontWeight: 500, border: 'none', cursor: 'pointer', backgroundColor: active === value ? '#fff' : 'transparent', color: active === value ? '#111827' : '#4b5563', transition: 'all 0.2s', ...style }}
   >
     {children}
   </button>
 );
 
-const TabsContent = ({ value, children, active, className = '' }: any) =>
-  active === value ? <div className={`mt-4 ${className}`}>{children}</div> : null;
+const TabsContent = ({ value, children, active, style = {} }: any) =>
+  active === value ? <div style={{ marginTop: '16px', ...style }}>{children}</div> : null;
 
 const Select = ({ children, value, onValueChange, ...props }: any) => {
   const [open, setOpen] = useState(false);
@@ -153,10 +145,10 @@ const Select = ({ children, value, onValueChange, ...props }: any) => {
   );
 };
 
-const SelectTrigger = ({ children, open, setOpen, className = '' }: any) => (
+const SelectTrigger = ({ children, open, setOpen, style = {} }: any) => (
   <button
     onClick={() => setOpen?.(!open)}
-    className={`w-full px-3 py-2 border border-gray-300 rounded-md text-left flex justify-between items-center ${className}`}
+    style={{ width: '100%', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '16px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', cursor: 'pointer', ...style }}
   >
     {children}
   </button>
@@ -166,26 +158,26 @@ const SelectValue = ({ placeholder = 'Select...' }: any) => <span>{placeholder}<
 
 const SelectContent = ({ children, open, setOpen, ...props }: any) =>
   open ? (
-    <div className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-50" {...props}>
+    <div style={{ position: 'absolute', marginTop: '4px', backgroundColor: '#fff', border: '1px solid #d1d5db', borderRadius: '6px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', zIndex: 50 }} {...props}>
       {React.Children.map(children, (child: any) =>
         React.isValidElement(child) ? React.cloneElement(child, { setOpen } as any) : child
       )}
     </div>
   ) : null;
 
-const SelectItem = ({ value, children, onValueChange, setOpen, className = '' }: any) => (
+const SelectItem = ({ value, children, onValueChange, setOpen, style = {} }: any) => (
   <button
     onClick={() => {
       onValueChange?.(value);
       setOpen?.(false);
     }}
-    className={`w-full px-3 py-2 text-left hover:bg-blue-50 text-sm ${className}`}
+    style={{ width: '100%', padding: '8px 12px', textAlign: 'left', fontSize: '14px', border: 'none', backgroundColor: 'transparent', cursor: 'pointer', transition: 'background-color 0.2s', ...style }}
   >
     {children}
   </button>
 );
 
-const Separator = ({ className = '' }: any) => <div className={`bg-gray-200 h-px w-full ${className}`} />;
+const Separator = ({ style = {} }: any) => <div style={{ backgroundColor: '#e5e7eb', height: '1px', width: '100%', ...style }} />;
 
 const actions = [
   { key: "search", label: "Search", icon: Search },
@@ -253,9 +245,9 @@ type ActionKey =
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border bg-white/80 p-4 shadow-sm">
-      <div className="text-sm text-slate-500">{label}</div>
-      <div className="mt-1 text-2xl font-semibold tracking-tight">{value}</div>
+    <div style={{ borderRadius: '16px', border: '1px solid #e5e7eb', backgroundColor: 'rgba(255,255,255,0.8)', padding: '16px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+      <div style={{ fontSize: '14px', color: '#6b7280' }}>{label}</div>
+      <div style={{ marginTop: '4px', fontSize: '24px', fontWeight: 600, letterSpacing: '-0.02em' }}>{value}</div>
     </div>
   );
 }
@@ -268,8 +260,8 @@ function ActionChip({
   label: string;
 }) {
   return (
-    <div className="flex items-center gap-2 rounded-full border bg-white px-3 py-2 text-sm shadow-sm">
-      <Icon className="h-4 w-4" />
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '9999px', border: '1px solid #e5e7eb', backgroundColor: '#fff', padding: '8px 12px', fontSize: '14px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+      <Icon style={{ width: '16px', height: '16px' }} />
       <span>{label}</span>
     </div>
   );
@@ -289,24 +281,24 @@ function FlowCard({
   onUse: () => void;
 }) {
   return (
-    <Card className="rounded-2xl border shadow-sm">
-      <CardContent className="p-5">
-        <div className="flex items-start justify-between gap-3">
+    <Card>
+      <CardContent style={{ padding: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
           <div>
-            <div className="text-base font-semibold">{name}</div>
-            <div className="mt-1 text-sm text-slate-500">{trigger}</div>
+            <div style={{ fontSize: '16px', fontWeight: 600 }}>{name}</div>
+            <div style={{ marginTop: '4px', fontSize: '14px', color: '#6b7280' }}>{trigger}</div>
           </div>
-          <Button variant="outline" size="sm" className="rounded-xl" onClick={onUse}>
+          <Button variant="outline" style={{ padding: '6px 12px', fontSize: '12px', borderRadius: '8px' }} onClick={onUse}>
             Use
           </Button>
         </div>
 
-        <div className="mt-4 space-y-2 text-sm">
+        <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14px' }}>
           <div>
-            <span className="font-medium">Filter:</span> {filter}
+            <span style={{ fontWeight: 500 }}>Filter:</span> {filter}
           </div>
           <div>
-            <span className="font-medium">Action:</span> {action}
+            <span style={{ fontWeight: 500 }}>Action:</span> {action}
           </div>
         </div>
       </CardContent>
@@ -759,45 +751,45 @@ export default function EmailAutomationTool() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Email Automation</h1>
-          <p className="text-slate-600">Automate your email workflows with intelligent rules and actions.</p>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f3f4f6', padding: '24px' }}>
+      <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <h1 style={{ fontSize: '30px', fontWeight: 'bold', letterSpacing: '-0.02em' }}>Email Automation</h1>
+          <p style={{ color: '#4b5563' }}>Automate your email workflows with intelligent rules and actions.</p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
           <Stat label="Total processed" value={String(totalProcessed)} />
           <Stat label="Active flows" value={String(activeCount)} />
           <Stat label="Avg success rate" value={`${avgSuccess}%`} />
         </div>
 
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 rounded-xl bg-white p-1">
+        <Tabs defaultValue="overview">
+          <TabsList style={{ width: '100%' }}>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="starter">Starter templates</TabsTrigger>
             <TabsTrigger value="builder">Build new</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
-            <Card className="rounded-2xl border shadow-sm">
+          <TabsContent value="overview" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Search className="h-5 w-5" />
+                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Search style={{ width: '20px', height: '20px' }} />
                   Your automation flows
                 </CardTitle>
                 <CardDescription>Manage and monitor all your active workflows.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex gap-2">
+              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <Input
                     placeholder="Search workflows..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="rounded-xl"
+                    style={{ flex: 1 }}
                   />
                   <Select value={filterState} onValueChange={(value: any) => setFilterState(value)}>
-                    <SelectTrigger className="w-32 rounded-xl">
+                    <SelectTrigger style={{ width: '120px' }}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -807,7 +799,7 @@ export default function EmailAutomationTool() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {filteredFlows.map((flow) => (
                     <FlowOverviewCard key={flow.id} flow={flow} onToggle={toggleFlow} onSelect={setSelectedFlowId} />
                   ))}
@@ -816,38 +808,36 @@ export default function EmailAutomationTool() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="starter" className="space-y-6">
-            <div className="grid gap-4 md:grid-cols-2">
-              {starterFlows.map((flow, i) => (
-                <FlowCard
-                  key={i}
-                  name={flow.name}
-                  trigger={flow.trigger}
-                  filter={flow.filter}
-                  action={flow.action}
-                  onUse={() => {
-                    setBuilderName(flow.name);
-                    setBuilderQuery(flow.filter);
-                  }}
-                />
-              ))}
-            </div>
+          <TabsContent value="starter" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+            {starterFlows.map((flow, i) => (
+              <FlowCard
+                key={i}
+                name={flow.name}
+                trigger={flow.trigger}
+                filter={flow.filter}
+                action={flow.action}
+                onUse={() => {
+                  setBuilderName(flow.name);
+                  setBuilderQuery(flow.filter);
+                }}
+              />
+            ))}
           </TabsContent>
 
-          <TabsContent value="builder" className="space-y-6">
-            <Card className="rounded-2xl border shadow-sm">
+          <TabsContent value="builder" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Plus className="h-5 w-5" />
+                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Plus style={{ width: '20px', height: '20px' }} />
                   Build a new workflow
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
                   <Label>Workflow name</Label>
-                  <Input value={builderName} onChange={(e) => setBuilderName(e.target.value)} className="rounded-xl" />
+                  <Input value={builderName} onChange={(e) => setBuilderName(e.target.value)} />
                 </div>
-                <Button className="rounded-xl w-full">Create Workflow</Button>
+                <Button style={{ width: '100%' }}>Create Workflow</Button>
               </CardContent>
             </Card>
           </TabsContent>
