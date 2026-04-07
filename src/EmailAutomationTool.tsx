@@ -32,19 +32,19 @@ const Card = ({ children, style = {} }: any) => (
 );
 
 const CardHeader = ({ children, style = {} }: any) => (
-  <div style={{ padding: '24px', borderBottom: '1px solid #e5e7eb', ...style }}>{children}</div>
+  <div style={{ padding: '32px', borderBottom: '1px solid #e5e7eb', ...style }}>{children}</div>
 );
 
 const CardTitle = ({ children, style = {} }: any) => (
-  <h2 style={{ fontSize: '18px', fontWeight: 600, ...style }}>{children}</h2>
+  <h2 style={{ fontSize: '20px', fontWeight: 700, lineHeight: '1.5', ...style }}>{children}</h2>
 );
 
 const CardDescription = ({ children, style = {} }: any) => (
-  <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px', ...style }}>{children}</p>
+  <p style={{ fontSize: '15px', color: '#6b7280', marginTop: '8px', lineHeight: '1.6', ...style }}>{children}</p>
 );
 
 const CardContent = ({ children, style = {} }: any) => (
-  <div style={{ padding: '24px', ...style }}>{children}</div>
+  <div style={{ padding: '32px', ...style }}>{children}</div>
 );
 
 const Button = ({ children, variant = 'default', style = {}, ...props }: any) => {
@@ -65,14 +65,14 @@ const Button = ({ children, variant = 'default', style = {}, ...props }: any) =>
 
 const Input = ({ style = {}, ...props }: any) => (
   <input
-    style={{ padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '16px', fontFamily: 'inherit', ...style }}
+    style={{ padding: '12px 16px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '16px', fontFamily: 'inherit', lineHeight: '1.5', ...style }}
     {...props}
   />
 );
 
 const Textarea = ({ style = {}, ...props }: any) => (
   <textarea
-    style={{ padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '14px', fontFamily: 'monospace', ...style }}
+    style={{ padding: '12px 16px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', fontFamily: 'monospace', lineHeight: '1.6', ...style }}
     {...props}
   />
 );
@@ -100,7 +100,7 @@ const Switch = ({ checked = false, onCheckedChange }: any) => (
 );
 
 const Label = ({ children, style = {} }: any) => (
-  <label style={{ fontSize: '14px', fontWeight: 500, color: '#374151', display: 'block', marginBottom: '4px', ...style }}>{children}</label>
+  <label style={{ fontSize: '15px', fontWeight: 600, color: '#1f2937', display: 'block', marginBottom: '8px', lineHeight: '1.5', ...style }}>{children}</label>
 );
 
 const Tabs = ({ children, defaultValue, ...props }: any) => {
@@ -245,9 +245,9 @@ type ActionKey =
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ borderRadius: '16px', border: '1px solid #e5e7eb', backgroundColor: 'rgba(255,255,255,0.8)', padding: '16px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
-      <div style={{ fontSize: '14px', color: '#6b7280' }}>{label}</div>
-      <div style={{ marginTop: '4px', fontSize: '24px', fontWeight: 600, letterSpacing: '-0.02em' }}>{value}</div>
+    <div style={{ borderRadius: '12px', border: '1px solid #e5e7eb', backgroundColor: 'rgba(255,255,255,0.9)', padding: '24px', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+      <div style={{ fontSize: '14px', color: '#6b7280', fontWeight: 500 }}>{label}</div>
+      <div style={{ marginTop: '12px', fontSize: '32px', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: '1.2' }}>{value}</div>
     </div>
   );
 }
@@ -282,23 +282,23 @@ function FlowCard({
 }) {
   return (
     <Card>
-      <CardContent style={{ padding: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
+      <CardContent style={{ padding: '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '16px' }}>
           <div>
-            <div style={{ fontSize: '16px', fontWeight: 600 }}>{name}</div>
-            <div style={{ marginTop: '4px', fontSize: '14px', color: '#6b7280' }}>{trigger}</div>
+            <div style={{ fontSize: '17px', fontWeight: 700, lineHeight: '1.4' }}>{name}</div>
+            <div style={{ marginTop: '6px', fontSize: '14px', color: '#6b7280', lineHeight: '1.4' }}>{trigger}</div>
           </div>
-          <Button variant="outline" style={{ padding: '6px 12px', fontSize: '12px', borderRadius: '8px' }} onClick={onUse}>
+          <Button variant="outline" style={{ padding: '8px 14px', fontSize: '13px', borderRadius: '8px', whiteSpace: 'nowrap' }} onClick={onUse}>
             Use
           </Button>
         </div>
 
-        <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '14px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', lineHeight: '1.6' }}>
           <div>
-            <span style={{ fontWeight: 500 }}>Filter:</span> {filter}
+            <span style={{ fontWeight: 600 }}>Filter:</span> {filter}
           </div>
           <div>
-            <span style={{ fontWeight: 500 }}>Action:</span> {action}
+            <span style={{ fontWeight: 600 }}>Action:</span> {action}
           </div>
         </div>
       </CardContent>
@@ -469,39 +469,33 @@ function StepPill({ step }: { step: BuilderStep }) {
   const meta = actionTypeMeta[step.type];
   const Icon = meta.icon;
   return (
-    <div className="flex items-center gap-2 rounded-xl border bg-slate-50 px-3 py-2 text-sm">
-      <Icon className="h-4 w-4 text-slate-600" />
-      <span className="font-medium">{meta.label}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderRadius: '12px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', padding: '6px 12px', fontSize: '14px' }}>
+      <Icon style={{ width: '16px', height: '16px', color: '#6b7280' }} />
+      <span style={{ fontWeight: 500 }}>{meta.label}</span>
       {step.type === "label" && typeof step.config.value === "string" ? (
-        <Badge variant="secondary" className="rounded-full">{step.config.value}</Badge>
+        <Badge variant="secondary" style={{ borderRadius: '9999px' }}>{step.config.value}</Badge>
       ) : null}
       {step.type === "notify" && typeof step.config.channel === "string" ? (
-        <Badge variant="secondary" className="rounded-full">{step.config.channel}</Badge>
+        <Badge variant="secondary" style={{ borderRadius: '9999px' }}>{step.config.channel}</Badge>
       ) : null}
     </div>
   );
 }
 function EmailRow({ item }: { item: EmailItem }) {
+  const statusBg = item.status === "new" ? "#10b981" : item.status === "processed" ? "#d1d5db" : "#f59e0b";
   return (
-    <div className="flex items-start gap-3 rounded-2xl border bg-white p-4 shadow-sm">
-      <div
-        className={cn(
-          "mt-1 h-2.5 w-2.5 rounded-full",
-          item.status === "new" && "bg-emerald-500",
-          item.status === "processed" && "bg-slate-300",
-          item.status === "flagged" && "bg-amber-500"
-        )}
-      />
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between gap-3">
-          <div className="truncate text-sm font-medium text-slate-900">{item.from}</div>
-          <div className="text-xs text-slate-500">{item.time}</div>
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', borderRadius: '16px', border: '1px solid #e5e7eb', backgroundColor: '#fff', padding: '16px', boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)' }}>
+      <div style={{ marginTop: '4px', width: '10px', height: '10px', borderRadius: '9999px', backgroundColor: statusBg }} />
+      <div style={{ minWidth: 0, flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+          <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '14px', fontWeight: 500, color: '#111827' }}>{item.from}</div>
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>{item.time}</div>
         </div>
-        <div className="mt-1 truncate text-sm font-semibold">{item.subject}</div>
-        <div className="mt-1 line-clamp-2 text-sm text-slate-500">{item.preview}</div>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div style={{ marginTop: '4px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontSize: '14px', fontWeight: 600 }}>{item.subject}</div>
+        <div style={{ marginTop: '4px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', fontSize: '14px', color: '#6b7280', lineHeight: '1.6' }}>{item.preview}</div>
+        <div style={{ marginTop: '12px', display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {item.tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="rounded-full">{tag}</Badge>
+            <Badge key={tag} variant="secondary" style={{ borderRadius: '9999px' }}>{tag}</Badge>
           ))}
         </div>
       </div>
@@ -520,45 +514,45 @@ function FlowOverviewCard({
 }) {
   return (
     <motion.div layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-      <Card className="rounded-2xl border shadow-sm">
-        <CardContent className="p-5">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="text-lg font-semibold tracking-tight">{flow.name}</div>
-                <Badge className="rounded-full" variant={flow.enabled ? "default" : "secondary"}>
+      <Card>
+        <CardContent style={{ padding: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', '@media (min-width: 1024px)': { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' } }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px' }}>
+                <div style={{ fontSize: '18px', fontWeight: 600, letterSpacing: '-0.02em' }}>{flow.name}</div>
+                <Badge variant={flow.enabled ? "default" : "secondary"} style={{ borderRadius: '9999px' }}>
                   {flow.enabled ? "Active" : "Paused"}
                 </Badge>
-                <Badge variant="outline" className="rounded-full">{flow.scheduleText}</Badge>
+                <Badge variant="outline" style={{ borderRadius: '9999px' }}>{flow.scheduleText}</Badge>
               </div>
-              <p className="max-w-2xl text-sm text-slate-500">{flow.description}</p>
-              <div className="flex flex-wrap gap-2">
+              <p style={{ maxWidth: '40rem', fontSize: '14px', color: '#6b7280', lineHeight: '1.6' }}>{flow.description}</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
                 {flow.steps.map((step) => (
                   <StepPill key={step.id} step={step} />
                 ))}
               </div>
-              <div className="text-xs text-slate-500">Rule query: {flow.query}</div>
+              <div style={{ fontSize: '13px', color: '#6b7280', lineHeight: '1.5' }}>Rule query: {flow.query}</div>
             </div>
 
-            <div className="grid min-w-[240px] grid-cols-2 gap-3">
-              <div className="rounded-2xl border bg-slate-50 p-3">
-                <div className="text-xs text-slate-500">Processed today</div>
-                <div className="mt-1 text-xl font-semibold">{flow.processedToday}</div>
+            <div style={{ display: 'grid', minWidth: '280px', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+              <div style={{ borderRadius: '12px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', padding: '16px' }}>
+                <div style={{ fontSize: '12px', color: '#6b7280', fontWeight: 500 }}>Processed today</div>
+                <div style={{ marginTop: '8px', fontSize: '20px', fontWeight: 700 }}>{flow.processedToday}</div>
               </div>
-              <div className="rounded-2xl border bg-slate-50 p-3">
-                <div className="text-xs text-slate-500">Success rate</div>
-                <div className="mt-1 text-xl font-semibold">{flow.successRate}%</div>
+              <div style={{ borderRadius: '12px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', padding: '16px' }}>
+                <div style={{ fontSize: '12px', color: '#6b7280', fontWeight: 500 }}>Success rate</div>
+                <div style={{ marginTop: '8px', fontSize: '20px', fontWeight: 700 }}>{flow.successRate}%</div>
               </div>
-              <div className="col-span-2 rounded-2xl border bg-slate-50 p-3 text-xs text-slate-500">
-                Last run: <span className="font-medium text-slate-700">{flow.lastRun}</span>
+              <div style={{ gridColumn: 'span 2', borderRadius: '12px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', padding: '16px', fontSize: '12px', color: '#6b7280', lineHeight: '1.6' }}>
+                Last run: <span style={{ fontWeight: 600, color: '#1f2937' }}>{flow.lastRun}</span>
               </div>
-              <div className="col-span-2 flex gap-2">
-                <Button className="flex-1 rounded-xl" variant="outline" onClick={() => onSelect(flow.id)}>
-                  <Eye className="mr-2 h-4 w-4" />
+              <div style={{ gridColumn: 'span 2', display: 'flex', gap: '12px' }}>
+                <Button style={{ flex: 1, padding: '10px 12px', fontSize: '14px' }} variant="outline" onClick={() => onSelect(flow.id)}>
+                  <Eye style={{ marginRight: '6px', width: '16px', height: '16px', display: 'inline' }} />
                   Inspect
                 </Button>
-                <Button className="rounded-xl" variant={flow.enabled ? "secondary" : "default"} onClick={() => onToggle(flow.id)}>
-                  {flow.enabled ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
+                <Button style={{ flex: 1, padding: '10px 12px', fontSize: '14px' }} variant={flow.enabled ? "secondary" : "default"} onClick={() => onToggle(flow.id)}>
+                  {flow.enabled ? <Pause style={{ marginRight: '6px', width: '16px', height: '16px', display: 'inline' }} /> : <Play style={{ marginRight: '6px', width: '16px', height: '16px', display: 'inline' }} />}
                   {flow.enabled ? "Pause" : "Run"}
                 </Button>
               </div>
@@ -578,10 +572,10 @@ function BuilderStepEditor({
   onChange: (step: BuilderStep) => void;
 }) {
   return (
-    <div className="space-y-4">
-      <div className="grid gap-4 md:grid-cols-2">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px' }}>
         {step.type === "label" ? (
-          <div className="space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Label>Label name</Label>
             <Input
               value={String(step.config.value ?? "")}
@@ -592,13 +586,13 @@ function BuilderStepEditor({
         ) : null}
 
         {step.type === "notify" ? (
-          <div className="space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Label>Notification channel</Label>
             <Select
               value={String(step.config.channel ?? "")}
               onValueChange={(value) => onChange({ ...step, config: { ...step.config, channel: value } })}
             >
-              <SelectTrigger className="rounded-xl">
+              <SelectTrigger style={{ borderRadius: '12px' }}>
                 <SelectValue placeholder="Select channel" />
               </SelectTrigger>
               <SelectContent>
@@ -611,13 +605,13 @@ function BuilderStepEditor({
         ) : null}
 
         {step.type === "draft_reply" ? (
-          <div className="space-y-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Label>Draft mode</Label>
             <Select
               value={String(step.config.mode ?? "")}
               onValueChange={(value) => onChange({ ...step, config: { ...step.config, mode: value } })}
             >
-              <SelectTrigger className="rounded-xl">
+              <SelectTrigger style={{ borderRadius: '12px' }}>
                 <SelectValue placeholder="Select mode" />
               </SelectTrigger>
               <SelectContent>
@@ -629,20 +623,20 @@ function BuilderStepEditor({
         ) : null}
 
         {step.type === "summarize" ? (
-          <div className="space-y-2 md:col-span-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', gridColumn: 'span 2' }}>
             <Label>Summary instructions</Label>
             <Textarea
               value={String(step.config.format ?? "")}
               onChange={(e) => onChange({ ...step, config: { ...step.config, format: e.target.value } })}
               placeholder="Bullet summary with priority and next action"
-              className="min-h-[96px]"
+              style={{ minHeight: '96px' }}
             />
           </div>
         ) : null}
 
         {step.type === "forward" ? (
           <>
-            <div className="space-y-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Label>Forward to</Label>
               <Input
                 value={String(step.config.to ?? "")}
@@ -650,7 +644,7 @@ function BuilderStepEditor({
                 placeholder="name@example.com"
               />
             </div>
-            <div className="space-y-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <Label>Note</Label>
               <Input
                 value={String(step.config.note ?? "")}
@@ -662,7 +656,7 @@ function BuilderStepEditor({
         ) : null}
 
         {step.type === "delay" ? (
-          <div className="space-y-2 md:col-span-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', gridColumn: 'span 2' }}>
             <Label>Delay before next step</Label>
             <Input
               value={String(step.config.duration ?? "15 minutes")}
@@ -673,7 +667,7 @@ function BuilderStepEditor({
         ) : null}
 
         {step.type === "webhook" ? (
-          <div className="space-y-2 md:col-span-2">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', gridColumn: 'span 2' }}>
             <Label>Webhook endpoint</Label>
             <Input
               value={String(step.config.url ?? "")}
@@ -684,7 +678,7 @@ function BuilderStepEditor({
         ) : null}
 
         {["archive", "delete", "mark_unread"].includes(step.type) ? (
-          <div className="md:col-span-2 rounded-xl border bg-slate-50 p-3 text-sm text-slate-500">
+          <div style={{ gridColumn: 'span 2', borderRadius: '12px', border: '1px solid #e5e7eb', backgroundColor: '#f9fafb', padding: '12px', fontSize: '14px', color: '#6b7280', lineHeight: '1.6' }}>
             This is a direct mailbox action. It will run automatically whenever the filter matches.
           </div>
         ) : null}
@@ -751,8 +745,8 @@ export default function EmailAutomationTool() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f3f4f6', padding: '24px' }}>
-      <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f3f4f6', padding: '32px 24px' }}>
+      <div style={{ maxWidth: '80rem', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '32px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <h1 style={{ fontSize: '30px', fontWeight: 'bold', letterSpacing: '-0.02em' }}>Email Automation</h1>
           <p style={{ color: '#4b5563' }}>Automate your email workflows with intelligent rules and actions.</p>
@@ -765,23 +759,23 @@ export default function EmailAutomationTool() {
         </div>
 
         <Tabs defaultValue="overview">
-          <TabsList style={{ width: '100%' }}>
+          <TabsList style={{ width: '100%', gap: '12px' }}>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="starter">Starter templates</TabsTrigger>
             <TabsTrigger value="builder">Build new</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <TabsContent value="overview" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             <Card>
               <CardHeader>
-                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Search style={{ width: '20px', height: '20px' }} />
+                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <Search style={{ width: '22px', height: '22px' }} />
                   Your automation flows
                 </CardTitle>
                 <CardDescription>Manage and monitor all your active workflows.</CardDescription>
               </CardHeader>
-              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div style={{ display: 'flex', gap: '8px' }}>
+              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <div style={{ display: 'flex', gap: '12px' }}>
                   <Input
                     placeholder="Search workflows..."
                     value={searchQuery}
@@ -789,7 +783,7 @@ export default function EmailAutomationTool() {
                     style={{ flex: 1 }}
                   />
                   <Select value={filterState} onValueChange={(value: any) => setFilterState(value)}>
-                    <SelectTrigger style={{ width: '120px' }}>
+                    <SelectTrigger style={{ width: '140px' }}>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -799,7 +793,7 @@ export default function EmailAutomationTool() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   {filteredFlows.map((flow) => (
                     <FlowOverviewCard key={flow.id} flow={flow} onToggle={toggleFlow} onSelect={setSelectedFlowId} />
                   ))}
@@ -808,7 +802,7 @@ export default function EmailAutomationTool() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="starter" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+          <TabsContent value="starter" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
             {starterFlows.map((flow, i) => (
               <FlowCard
                 key={i}
@@ -824,11 +818,11 @@ export default function EmailAutomationTool() {
             ))}
           </TabsContent>
 
-          <TabsContent value="builder" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <TabsContent value="builder" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             <Card>
               <CardHeader>
-                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Plus style={{ width: '20px', height: '20px' }} />
+                <CardTitle style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <Plus style={{ width: '22px', height: '22px' }} />
                   Build a new workflow
                 </CardTitle>
               </CardHeader>
@@ -837,7 +831,7 @@ export default function EmailAutomationTool() {
                   <Label>Workflow name</Label>
                   <Input value={builderName} onChange={(e) => setBuilderName(e.target.value)} />
                 </div>
-                <Button style={{ width: '100%' }}>Create Workflow</Button>
+                <Button style={{ width: '100%', padding: '12px 16px', fontSize: '16px' }}>Create Workflow</Button>
               </CardContent>
             </Card>
           </TabsContent>
