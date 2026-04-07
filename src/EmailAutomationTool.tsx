@@ -826,12 +826,145 @@ export default function EmailAutomationTool() {
                   Build a new workflow
                 </CardTitle>
               </CardHeader>
-              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
+              <CardContent style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <Label>Workflow name</Label>
-                  <Input value={builderName} onChange={(e) => setBuilderName(e.target.value)} />
+                  <Input value={builderName} onChange={(e) => setBuilderName(e.target.value)} placeholder="e.g., Auto-label newsletters" />
                 </div>
-                <Button style={{ width: '100%', padding: '12px 16px', fontSize: '16px' }}>Create Workflow</Button>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Label>Trigger mode</Label>
+                  <Select value={builderTrigger} onValueChange={setBuilderTrigger}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="new_email">New emails</SelectItem>
+                      <SelectItem value="scheduled">Scheduled time</SelectItem>
+                      <SelectItem value="manual">Manual trigger</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Label>Schedule</Label>
+                  <Input value={builderScheduleText} onChange={(e) => setBuilderScheduleText(e.target.value)} placeholder="e.g., Every 6 hours, Daily at 9am" />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Label>Email filter (Gmail query syntax)</Label>
+                  <Textarea value={builderQuery} onChange={(e) => setBuilderQuery(e.target.value)} style={{ minHeight: '80px' }} placeholder="from:(@domain.com) subject:(invoice OR receipt)" />
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Label>Scope</Label>
+                  <Select value={builderScope} onValueChange={(value: any) => setBuilderScope(value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="gmail">Gmail</SelectItem>
+                      <SelectItem value="workspace">Google Workspace</SelectItem>
+                      <SelectItem value="custom">Custom</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Label>Description</Label>
+                  <Textarea value={builderDescription} onChange={(e) => setBuilderDescription(e.target.value)} style={{ minHeight: '80px' }} placeholder="What does this workflow do?" />
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', backgroundColor: '#f3f4f6', borderRadius: '12px' }}>
+                  <Switch checked={builderEnabled} onCheckedChange={setBuilderEnabled} />
+                  <Label style={{ margin: 0 }}>{builderEnabled ? "Enabled" : "Disabled"}</Label>
+                </div>
+
+                <Separator />
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ fontSize: '16px', fontWeight: 600 }}>Workflow steps</div>
+                    <Button
+                      variant="outline"
+                      style={{ padding: '8px 12px', fontSize: '14px' }}
+                      onClick={() => setBuilderSteps([...builderSteps, { id: makeId("step"), type: "label", config: {} }])}
+                    >
+                      + Add step
+                    </Button>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    {builderSteps.map((step, i) => (
+                      <div key={step.id} style={{ borderRadius: '12px', border: '1px solid #e5e7eb', padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div style={{ fontSize: '14px', fontWeight: 600, color: '#6b7280' }}>Step {i + 1}</div>
+                          <Select
+                            value={step.type}
+                            onValueChange={(type: any) => {
+                              const updated = [...builderSteps];
+                              updated[i] = { ...step, type, config: {} };
+                              setBuilderSteps(updated);
+                            }}
+                          >
+                            <SelectTrigger style={{ width: '180px' }}>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {Object.entries(actionTypeMeta).map(([key, meta]) => (
+                                <SelectItem key={key} value={key}>
+                                  {meta.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <Button
+                            variant="outline"
+                            style={{ padding: '6px 10px', fontSize: '12px' }}
+                            onClick={() => setBuilderSteps(builderSteps.filter((_, idx) => idx !== i))}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                        <BuilderStepEditor step={step} onChange={(updated) => {
+                          const arr = [...builderSteps];
+                          arr[i] = updated;
+                          setBuilderSteps(arr);
+                        }} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <Button style={{ width: '100%', padding: '12px 16px', fontSize: '16px' }} onClick={() => {
+                  const newFlow: AutomationFlow = {
+                    id: makeId("flow"),
+                    name: builderName,
+                    trigger: builderTrigger,
+                    scheduleText: builderScheduleText,
+                    query: builderQuery,
+                    scope: builderScope,
+                    description: builderDescription,
+                    enabled: builderEnabled,
+                    steps: builderSteps,
+                    processedToday: 0,
+                    successRate: 0,
+                    lastRun: "Never",
+                  };
+                  setFlows([...flows, newFlow]);
+                  setBuilderName("New automated workflow");
+                  setBuilderTrigger("new_email");
+                  setBuilderScheduleText("Instant");
+                  setBuilderQuery('from:(@newtonschool.co OR @nst.edu)');
+                  setBuilderScope("workspace");
+                  setBuilderDescription("Watches inbox activity and automatically performs a sequence of actions.");
+                  setBuilderEnabled(true);
+                  setBuilderSteps([
+                    { id: makeId("step"), type: "label", config: { value: "Important" } },
+                    { id: makeId("step"), type: "notify", config: { channel: "dashboard" } },
+                  ]);
+                }}>
+                  Create Workflow
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
