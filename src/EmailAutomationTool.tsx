@@ -152,16 +152,27 @@ const SelectTrigger = ({ children, open, setOpen, value, style = {} }: any) => (
     onClick={() => setOpen?.(!open)}
     style={{ width: '100%', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '16px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', cursor: 'pointer', ...style }}
   >
-    {children}
+    <span style={{ flex: 1 }}>
+      {React.Children.map(children, (child: any) =>
+        React.isValidElement(child) ? React.cloneElement(child, { value } as any) : child
+      )}
+    </span>
+    <span style={{ marginLeft: '8px', display: 'flex', alignItems: 'center', color: '#6b7280', fontSize: '14px' }}>▼</span>
   </button>
 );
 
 const SelectValue = ({ placeholder = 'Select...', value, children }: any) => {
-  let displayValue = placeholder;
   if (children && React.isValidElement(children)) {
     return <span>{children}</span>;
   }
-  return <span>{displayValue}</span>;
+  if (value) {
+    const formatted = String(value)
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    return <span>{formatted}</span>;
+  }
+  return <span>{placeholder}</span>;
 };
 
 const SelectContent = ({ children, open, setOpen, onValueChange, ...props }: any) =>
