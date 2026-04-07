@@ -49,13 +49,13 @@ const CardContent = ({ children, style = {} }: any) => (
 
 const Button = ({ children, variant = 'default', style = {}, ...props }: any) => {
   const variants = {
-    default: { backgroundColor: '#2563eb', color: 'white', cursor: 'pointer' },
-    secondary: { backgroundColor: '#e5e7eb', color: '#111827', cursor: 'pointer' },
+    default: { backgroundColor: '#2563eb', color: 'white', cursor: 'pointer', border: 'none' },
+    secondary: { backgroundColor: '#e5e7eb', color: '#111827', cursor: 'pointer', border: 'none' },
     outline: { border: '1px solid #d1d5db', backgroundColor: 'transparent', cursor: 'pointer' },
   };
   return (
     <button
-      style={{ padding: '8px 16px', borderRadius: '6px', fontWeight: 500, border: 'none', transition: 'all 0.2s', ...variants[variant], ...style }}
+      style={{ padding: '8px 16px', borderRadius: '6px', fontWeight: 500, transition: 'all 0.2s', ...variants[variant], ...style }}
       {...props}
     >
       {children}
@@ -65,14 +65,14 @@ const Button = ({ children, variant = 'default', style = {}, ...props }: any) =>
 
 const Input = ({ style = {}, ...props }: any) => (
   <input
-    style={{ padding: '12px 16px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '16px', fontFamily: 'inherit', lineHeight: '1.5', ...style }}
+    style={{ padding: '12px 16px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '16px', fontFamily: 'inherit', lineHeight: '1.5', cursor: 'text', ...style }}
     {...props}
   />
 );
 
 const Textarea = ({ style = {}, ...props }: any) => (
   <textarea
-    style={{ padding: '12px 16px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', fontFamily: 'monospace', lineHeight: '1.6', ...style }}
+    style={{ padding: '12px 16px', border: '1px solid #d1d5db', borderRadius: '8px', fontSize: '14px', fontFamily: 'monospace', lineHeight: '1.6', cursor: 'text', resize: 'vertical', ...style }}
     {...props}
   />
 );
@@ -99,8 +99,8 @@ const Switch = ({ checked = false, onCheckedChange }: any) => (
   </button>
 );
 
-const Label = ({ children, style = {} }: any) => (
-  <label style={{ fontSize: '15px', fontWeight: 600, color: '#1f2937', display: 'block', marginBottom: '8px', lineHeight: '1.5', ...style }}>{children}</label>
+const Label = ({ children, style = {}, ...props }: any) => (
+  <label style={{ fontSize: '15px', fontWeight: 600, color: '#1f2937', display: 'block', marginBottom: '8px', lineHeight: '1.5', cursor: 'default', ...style }} {...props}>{children}</label>
 );
 
 const Tabs = ({ children, defaultValue, ...props }: any) => {
@@ -137,7 +137,7 @@ const TabsContent = ({ value, children, active, style = {} }: any) =>
 const Select = ({ children, value, onValueChange, ...props }: any) => {
   const [open, setOpen] = useState(false);
   return (
-    <div {...props}>
+    <div style={{ position: 'relative', ...props.style }} {...(({ style, ...rest }: any) => rest)(props)}>
       {React.Children.map(children, (child: any) =>
         React.isValidElement(child)
           ? React.cloneElement(child, { value, onValueChange, open, setOpen } as any)
@@ -147,7 +147,7 @@ const Select = ({ children, value, onValueChange, ...props }: any) => {
   );
 };
 
-const SelectTrigger = ({ children, open, setOpen, style = {} }: any) => (
+const SelectTrigger = ({ children, open, setOpen, value, style = {} }: any) => (
   <button
     onClick={() => setOpen?.(!open)}
     style={{ width: '100%', padding: '8px 12px', border: '1px solid #d1d5db', borderRadius: '6px', fontSize: '16px', textAlign: 'left', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', cursor: 'pointer', ...style }}
@@ -156,13 +156,19 @@ const SelectTrigger = ({ children, open, setOpen, style = {} }: any) => (
   </button>
 );
 
-const SelectValue = ({ placeholder = 'Select...' }: any) => <span>{placeholder}</span>;
+const SelectValue = ({ placeholder = 'Select...', value, children }: any) => {
+  let displayValue = placeholder;
+  if (children && React.isValidElement(children)) {
+    return <span>{children}</span>;
+  }
+  return <span>{displayValue}</span>;
+};
 
-const SelectContent = ({ children, open, setOpen, ...props }: any) =>
+const SelectContent = ({ children, open, setOpen, onValueChange, ...props }: any) =>
   open ? (
-    <div style={{ position: 'absolute', marginTop: '4px', backgroundColor: '#fff', border: '1px solid #d1d5db', borderRadius: '6px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', zIndex: 50 }} {...props}>
+    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, marginTop: '4px', backgroundColor: '#fff', border: '1px solid #d1d5db', borderRadius: '6px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)', zIndex: 50 }} {...props}>
       {React.Children.map(children, (child: any) =>
-        React.isValidElement(child) ? React.cloneElement(child, { setOpen } as any) : child
+        React.isValidElement(child) ? React.cloneElement(child, { setOpen, onValueChange } as any) : child
       )}
     </div>
   ) : null;
@@ -173,7 +179,9 @@ const SelectItem = ({ value, children, onValueChange, setOpen, style = {} }: any
       onValueChange?.(value);
       setOpen?.(false);
     }}
-    style={{ width: '100%', padding: '8px 12px', textAlign: 'left', fontSize: '14px', border: 'none', backgroundColor: 'transparent', cursor: 'pointer', transition: 'background-color 0.2s', ...style }}
+    style={{ width: '100%', padding: '10px 12px', textAlign: 'left', fontSize: '14px', border: 'none', backgroundColor: 'transparent', cursor: 'pointer', transition: 'background-color 0.2s', ':hover': { backgroundColor: '#f3f4f6' }, ...style }}
+    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f3f4f6')}
+    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
   >
     {children}
   </button>
