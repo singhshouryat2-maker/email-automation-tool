@@ -302,24 +302,29 @@ function FlowCard({
   filter,
   action,
   onUse,
+  isSelected = false,
 }: {
   name: string;
   trigger: string;
   filter: string;
   action: string;
   onUse: () => void;
+  isSelected?: boolean;
 }) {
   return (
-    <Card>
+    <Card style={{ borderColor: isSelected ? '#2563eb' : '#e5e7eb', borderWidth: isSelected ? '2px' : '1px', backgroundColor: isSelected ? '#eff6ff' : '#fff', transition: 'all 0.2s' }}>
       <CardContent style={{ padding: '24px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '16px' }}>
-          <div>
-            <div style={{ fontSize: '17px', fontWeight: 700, lineHeight: '1.4' }}>{name}</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '17px', fontWeight: 700, lineHeight: '1.4', color: isSelected ? '#2563eb' : '#111827' }}>{name}</div>
             <div style={{ marginTop: '6px', fontSize: '14px', color: '#6b7280', lineHeight: '1.4' }}>{trigger}</div>
           </div>
-          <Button variant="outline" style={{ padding: '8px 14px', fontSize: '13px', borderRadius: '8px', whiteSpace: 'nowrap' }} onClick={onUse}>
-            Use
-          </Button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {isSelected && <span style={{ fontSize: '18px', color: '#2563eb' }}>✓</span>}
+            <Button variant={isSelected ? "default" : "outline"} style={{ padding: '8px 14px', fontSize: '13px', borderRadius: '8px', whiteSpace: 'nowrap' }} onClick={onUse}>
+              {isSelected ? "Selected" : "Use"}
+            </Button>
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '14px', lineHeight: '1.6' }}>
@@ -839,6 +844,7 @@ export default function EmailAutomationTool() {
                 trigger={flow.trigger}
                 filter={flow.filter}
                 action={flow.action}
+                isSelected={builderName === flow.name}
                 onUse={() => {
                   setBuilderName(flow.name);
                   setBuilderQuery(flow.filter);
